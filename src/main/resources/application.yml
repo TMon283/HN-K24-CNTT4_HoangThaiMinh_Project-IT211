@@ -45,10 +45,10 @@ app:
   blacklist:
     storage: database
 
-#  cloudinary:
-#    cloud-name: ${CLOUDINARY_CLOUD_NAME:}
-#    api-key: ${CLOUDINARY_API_KEY:}
-#    api-secret: ${CLOUDINARY_API_SECRET:}
+  cloudinary:
+    cloud-name: ${CLOUDINARY_CLOUD_NAME:}
+    api-key: ${CLOUDINARY_API_KEY:}
+    api-secret: ${CLOUDINARY_API_SECRET:}
 
 logging:
   level:

@@ -101,6 +101,16 @@ CREATE TABLE IF NOT EXISTS token_blacklist (
     blacklisted_at  DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6)
 );
 
+CREATE TABLE IF NOT EXISTS password_reset_tokens (
+    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id     BIGINT NOT NULL,
+    token       VARCHAR(100) NOT NULL UNIQUE,
+    expiry_date DATETIME(6) NOT NULL,
+    used        TINYINT(1) NOT NULL DEFAULT 0,
+    created_at  DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6),
+    CONSTRAINT fk_password_reset_user FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
 CREATE TABLE IF NOT EXISTS audit_logs (
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     action      VARCHAR(100) NOT NULL,

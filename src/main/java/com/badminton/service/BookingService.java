@@ -11,4 +11,10 @@ public interface BookingService {
     BookingResponse createBooking(BookingCreateRequest request, Long userId);
 
     Page<BookingResponse> getBookingHistory(Long userId, BookingStatus status, Pageable pageable);
+
+    Page<BookingResponse> getBookingsByStatus(BookingStatus status, Pageable pageable);
+
+    BookingResponse approveBooking(Long bookingId);
+
+    BookingResponse rejectBooking(Long bookingId);
 }

@@ -8,6 +8,7 @@ import com.badminton.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -52,8 +53,10 @@ public class AdminController {
     @GetMapping
     public ResponseEntity<ApiResponse<Page<UserResponse>>> searchUsers(
             @RequestParam(required = false) String keyword,
-            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<UserResponse> users = userService.searchUsers(keyword, pageable);
+            @PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        int pageNumber = pageable.getPageNumber() == 0 ? 0 : pageable.getPageNumber() - 1;
+        Pageable adjustedPageable = PageRequest.of(pageNumber, pageable.getPageSize(), pageable.getSort());
+        Page<UserResponse> users = userService.searchUsers(keyword, adjustedPageable);
         return ResponseEntity.ok(ApiResponse.success(users));
     }
 }

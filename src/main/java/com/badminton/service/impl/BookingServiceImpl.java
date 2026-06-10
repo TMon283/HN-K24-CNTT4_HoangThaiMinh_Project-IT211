@@ -94,6 +94,42 @@ public class BookingServiceImpl implements BookingService {
                 .map(bookingMapper::toResponse);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Page<BookingResponse> getBookingsByStatus(BookingStatus status, Pageable pageable) {
+        return bookingRepository.findAllByStatus(status, pageable)
+                .map(bookingMapper::toResponse);
+    }
+
+    @Override
+    @Transactional
+    public BookingResponse approveBooking(Long bookingId) {
+        Booking booking = findBookingWithDetails(bookingId);
+        validatePendingStatus(booking);
+        booking.setStatus(BookingStatus.CONFIRMED);
+        return bookingMapper.toResponse(bookingRepository.save(booking));
+    }
+
+    @Override
+    @Transactional
+    public BookingResponse rejectBooking(Long bookingId) {
+        Booking booking = findBookingWithDetails(bookingId);
+        validatePendingStatus(booking);
+        booking.setStatus(BookingStatus.CANCELLED);
+        return bookingMapper.toResponse(bookingRepository.save(booking));
+    }
+
+    private Booking findBookingWithDetails(Long bookingId) {
+        return bookingRepository.findByIdWithDetails(bookingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + bookingId));
+    }
+
+    private void validatePendingStatus(Booking booking) {
+        if (booking.getStatus() != BookingStatus.PENDING) {
+            throw new ValidationException("Only PENDING bookings can be approved or rejected");
+        }
+    }
+
     private void validateFutureBookingDate(LocalDate bookingDate) {
         if (!bookingDate.isAfter(LocalDate.now())) {
             throw new ValidationException("Booking date must be in the future");

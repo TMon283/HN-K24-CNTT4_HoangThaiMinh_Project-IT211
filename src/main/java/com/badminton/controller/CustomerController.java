@@ -35,7 +35,7 @@ public class CustomerController {
     @GetMapping
     public ResponseEntity<ApiResponse<Page<BookingResponse>>> getBookingHistory(
             @RequestParam(required = false) BookingStatus status,
-            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         Long userId = SecurityUtils.getCurrentUserId();
         Page<BookingResponse> bookings = bookingService.getBookingHistory(userId, status, pageable);
         return ResponseEntity.ok(ApiResponse.success(bookings));

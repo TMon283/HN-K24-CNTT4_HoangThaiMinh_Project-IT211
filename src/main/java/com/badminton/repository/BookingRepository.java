@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
@@ -26,4 +27,24 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     Page<Booking> findByUserIdAndStatus(@Param("userId") Long userId,
                                         @Param("status") BookingStatus status,
                                         Pageable pageable);
+
+    @Query("""
+            SELECT b FROM Booking b
+            JOIN FETCH b.court
+            JOIN FETCH b.timeSlot
+            JOIN FETCH b.user
+            LEFT JOIN FETCH b.payment
+            WHERE b.id = :id
+            """)
+    Optional<Booking> findByIdWithDetails(@Param("id") Long id);
+
+    @Query("""
+            SELECT b FROM Booking b
+            JOIN FETCH b.court
+            JOIN FETCH b.timeSlot
+            JOIN FETCH b.user
+            LEFT JOIN FETCH b.payment
+            WHERE (:status IS NULL OR b.status = :status)
+            """)
+    Page<Booking> findAllByStatus(@Param("status") BookingStatus status, Pageable pageable);
 }

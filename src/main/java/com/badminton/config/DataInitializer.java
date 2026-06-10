@@ -35,6 +35,7 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         seedRoles();
         seedAdminUser();
+        seedManagerUser();
         seedCourts();
         seedTimeSlots();
     }
@@ -64,6 +65,26 @@ public class DataInitializer implements CommandLineRunner {
                 .build();
 
         userRepository.save(admin);
+    }
+
+    private void seedManagerUser() {
+        if (userRepository.findByEmail("manager@badminton.com").isPresent()) {
+            return;
+        }
+
+        Role managerRole = roleRepository.findByName(RoleType.ROLE_MANAGER)
+                .orElseThrow();
+
+        User manager = User.builder()
+                .email("manager@badminton.com")
+                .password(passwordEncoder.encode("Manager@123"))
+                .fullName("Court Manager")
+                .phone("0900000001")
+                .enabled(true)
+                .roles(new HashSet<>(Set.of(managerRole)))
+                .build();
+
+        userRepository.save(manager);
     }
 
     private void seedCourts() {

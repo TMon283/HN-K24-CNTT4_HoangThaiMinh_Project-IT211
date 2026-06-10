@@ -8,7 +8,6 @@ import com.badminton.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -43,11 +42,13 @@ public class SecurityConfig {
                         .authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(AppConstants.AUTH_PATH).permitAll()
-                        .requestMatchers(HttpMethod.POST, AppConstants.API_V1 + "/auth/register").permitAll()
+                        .requestMatchers(AppConstants.PUBLIC_AUTH_ENDPOINTS).permitAll()
                         .requestMatchers(AppConstants.ADMIN_PATH).hasRole("ADMIN")
                         .requestMatchers(AppConstants.MANAGER_PATH).hasRole("MANAGER")
                         .requestMatchers(AppConstants.CUSTOMER_PATH).hasRole("CUSTOMER")
+                        .requestMatchers(AppConstants.FILES_PATH).hasRole("MANAGER")
+                        .requestMatchers(AppConstants.API_V1 + "/auth/logout").authenticated()
+                        .requestMatchers(AppConstants.API_V1 + "/auth/change-password").authenticated()
                         .anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
