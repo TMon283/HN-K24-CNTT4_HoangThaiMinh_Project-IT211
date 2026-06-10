@@ -1,0 +1,7 @@
+app:
+  blacklist:
+    storage: redis
+
+spring:
+  autoconfigure:
+    exclude: []

@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: badminton-court-booking
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/badminton_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: mona32006
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 2000ms
+
+server:
+  port: 8080
+  error:
+    include-message: always
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:BadmintonCourtBookingSecretKeyForJwtTokenGenerationMustBeLongEnough256Bits}
+    access-token-expiration-ms: 900000
+    refresh-token-expiration-ms: 604800000
+
+  blacklist:
+    storage: database
+
+#  cloudinary:
+#    cloud-name: ${CLOUDINARY_CLOUD_NAME:}
+#    api-key: ${CLOUDINARY_API_KEY:}
+#    api-secret: ${CLOUDINARY_API_SECRET:}
+
+logging:
+  level:
+    com.badminton: DEBUG
+    org.springframework.security: INFO
