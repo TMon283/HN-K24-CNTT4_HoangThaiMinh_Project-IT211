@@ -46,9 +46,9 @@ app:
     storage: database
 
   cloudinary:
-    cloud-name: ${CLOUDINARY_CLOUD_NAME:}
-    api-key: ${CLOUDINARY_API_KEY:}
-    api-secret: ${CLOUDINARY_API_SECRET:}
+    cloud-name: ${CLOUDINARY_CLOUD_NAME:dxrmn3cz5}
+    api-key: ${CLOUDINARY_API_KEY:324574129414371}
+    api-secret: ${CLOUDINARY_API_SECRET:k5xhj2OqQgWTR5Ip0iz1k7pj-xE}
 
 logging:
   level:
