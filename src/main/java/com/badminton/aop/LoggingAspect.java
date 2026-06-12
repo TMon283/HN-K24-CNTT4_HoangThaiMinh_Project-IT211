@@ -1,4 +1,4 @@
-package com.badminton.dto;
+package com.badminton.aop;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;

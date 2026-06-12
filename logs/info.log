@@ -1,34 +1,8 @@
-2026-06-12 01:14:57 [restartedMain] INFO  com.badminton.BadmintonApplication - Starting BadmintonApplication using Java 21.0.7 with PID 7576 (C:\Users\ADMIN\Desktop\IT211-Project\build\classes\java\main started by ADMIN in C:\Users\ADMIN\Desktop\IT211-Project)
-2026-06-12 01:14:57 [restartedMain] INFO  com.badminton.BadmintonApplication - No active profile set, falling back to 1 default profile: "default"
-2026-06-12 01:14:59 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2026-06-12 01:14:59 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@13167731
-2026-06-12 01:14:59 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2026-06-12 01:15:02 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
-2026-06-12 01:15:02 [restartedMain] INFO  com.badminton.BadmintonApplication - Started BadmintonApplication in 5.36 seconds (process running for 5.848)
-2026-06-12 01:35:47 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2026-06-12 01:35:47 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2026-06-12 01:43:01 [Test worker] INFO  c.b.BadmintonApplicationTests - Starting BadmintonApplicationTests using Java 21.0.10 with PID 1848 (started by ADMIN in C:\Users\ADMIN\Desktop\IT211-Project)
-2026-06-12 01:43:01 [Test worker] INFO  c.b.BadmintonApplicationTests - The following 1 profile is active: "test"
-2026-06-12 01:43:11 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2026-06-12 01:43:12 [Test worker] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
-2026-06-12 01:43:12 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2026-06-12 01:43:27 [Test worker] INFO  c.b.BadmintonApplicationTests - Started BadmintonApplicationTests in 28.121 seconds (process running for 32.517)
-2026-06-12 01:43:34 [Test worker] INFO  com.badminton.dto.LoggingAspect - [START] com.badminton.service.impl.AuthServiceImpl.login() args=[customer@mail.com]
-2026-06-12 01:43:35 [Test worker] INFO  c.b.service.impl.AuthServiceImpl - User logged out, access token blacklisted
-2026-06-12 01:43:36 [Test worker] INFO  c.b.service.impl.AuthServiceImpl - Login attempt for email=customer@mail.com
-2026-06-12 01:43:36 [Test worker] INFO  c.b.service.impl.AuthServiceImpl - Login successful for email=customer@mail.com, userId=1
-2026-06-12 01:43:36 [Test worker] INFO  c.b.service.impl.BookingServiceImpl - Creating booking for userId=1, courtId=1, timeSlotId=1, date=2026-06-15
-2026-06-12 01:43:36 [Test worker] INFO  c.b.service.impl.BookingServiceImpl - Approving booking id=1
-2026-06-12 01:43:36 [Test worker] INFO  c.b.service.impl.BookingServiceImpl - Booking approved successfully: bookingId=1, status=CONFIRMED
-2026-06-12 01:43:36 [Test worker] INFO  c.b.service.impl.BookingServiceImpl - Creating booking for userId=1, courtId=1, timeSlotId=1, date=2026-06-12
-2026-06-12 01:43:36 [Test worker] INFO  c.b.service.impl.BookingServiceImpl - Creating booking for userId=1, courtId=1, timeSlotId=1, date=2026-06-15
-2026-06-12 01:43:36 [Test worker] INFO  c.b.service.impl.BookingServiceImpl - Booking created successfully: bookingId=1, userId=1, status=PENDING
-2026-06-12 01:43:38 [Test worker] INFO  c.b.service.impl.UserServiceImpl - Registering new user with email=new@mail.com
-2026-06-12 01:43:38 [Test worker] INFO  c.b.service.impl.UserServiceImpl - User registered successfully: userId=1, email=new@mail.com
-2026-06-12 01:43:38 [Test worker] INFO  c.b.service.impl.UserServiceImpl - Admin creating user with email=manager@mail.com
-2026-06-12 01:43:38 [Test worker] INFO  c.b.service.impl.UserServiceImpl - User created successfully: userId=2, email=manager@mail.com
-2026-06-12 01:43:38 [Test worker] INFO  c.b.service.impl.UserServiceImpl - Updating user id=1
-2026-06-12 01:43:38 [Test worker] INFO  c.b.service.impl.UserServiceImpl - User updated successfully: userId=1, email=user@mail.com
-2026-06-12 01:43:38 [Test worker] INFO  c.b.service.impl.UserServiceImpl - Registering new user with email=exists@mail.com
-2026-06-12 01:43:38 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2026-06-12 01:43:38 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-06-12 14:28:17 [restartedMain] INFO  com.badminton.BadmintonApplication - Starting BadmintonApplication using Java 21.0.7 with PID 27424 (C:\Users\ADMIN\Desktop\IT211-Project\build\classes\java\main started by ADMIN in C:\Users\ADMIN\Desktop\IT211-Project)
+2026-06-12 14:28:17 [restartedMain] INFO  com.badminton.BadmintonApplication - No active profile set, falling back to 1 default profile: "default"
+2026-06-12 14:28:19 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-06-12 14:28:19 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@47ce1d96
+2026-06-12 14:28:19 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-06-12 14:28:23 [restartedMain] INFO  com.badminton.BadmintonApplication - Started BadmintonApplication in 6.854 seconds (process running for 7.876)
+2026-06-12 14:28:50 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-06-12 14:28:50 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

@@ -1,5 +1,6 @@
 package com.badminton.dto;
 
+import com.badminton.aop.LoggingAspect;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.junit.jupiter.api.Test;
