@@ -52,5 +52,8 @@ app:
 
 logging:
   level:
-    com.badminton: DEBUG
-    org.springframework.security: INFO
+    root: INFO
+    com.badminton: INFO
+    org.springframework: WARN
+    org.hibernate: WARN
+

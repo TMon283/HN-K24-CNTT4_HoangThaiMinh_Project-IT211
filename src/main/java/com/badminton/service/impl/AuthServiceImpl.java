@@ -14,6 +14,7 @@ import com.badminton.security.UserPrincipal;
 import com.badminton.service.AuthService;
 import com.badminton.service.TokenBlacklistService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -36,18 +38,25 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public AuthResponse login(LoginRequest request) {
+        log.info("Login attempt for email={}", request.getEmail());
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
         UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
         User user = userRepository.findByEmail(principal.getEmail())
-                .orElseThrow(() -> new ValidationException("Invalid credentials"));
+                .orElseThrow(() -> {
+                    log.warn("Login failed for email={}: user not found after authentication", request.getEmail());
+                    return new ValidationException("Invalid credentials");
+                });
 
         String accessToken = jwtTokenProvider.generateAccessToken(principal);
         String refreshToken = jwtTokenProvider.generateRefreshToken(principal);
 
         saveRefreshToken(user, refreshToken);
         UserResponse userResponse = userMapper.toResponse(user);
+
+        log.info("Login successful for email={}, userId={}", user.getEmail(), user.getId());
 
         return AuthResponse.builder()
                 .accessToken(accessToken)
@@ -61,10 +70,16 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public AuthResponse refreshToken(String refreshToken) {
+        log.debug("Refreshing access token");
+
         RefreshToken storedToken = refreshTokenRepository.findByToken(refreshToken)
-                .orElseThrow(() -> new ValidationException("Invalid refresh token"));
+                .orElseThrow(() -> {
+                    log.warn("Refresh token failed: invalid token");
+                    return new ValidationException("Invalid refresh token");
+                });
 
         if (storedToken.isRevoked() || storedToken.getExpiryDate().isBefore(LocalDateTime.now())) {
+            log.warn("Refresh token failed for userId={}: expired or revoked", storedToken.getUser().getId());
             throw new ValidationException("Refresh token expired or revoked");
         }
 
@@ -72,6 +87,8 @@ public class AuthServiceImpl implements AuthService {
         UserPrincipal principal = new UserPrincipal(user);
         String newAccessToken = jwtTokenProvider.generateAccessToken(principal);
         UserResponse userResponse = userMapper.toResponse(user);
+
+        log.info("Access token refreshed for userId={}", user.getId());
 
         return AuthResponse.builder()
                 .accessToken(newAccessToken)
@@ -87,6 +104,7 @@ public class AuthServiceImpl implements AuthService {
     public void logout(String accessToken) {
         long remainingMs = jwtTokenProvider.getRemainingExpirationMs(accessToken);
         tokenBlacklistService.blacklistToken(accessToken, remainingMs);
+        log.info("User logged out, access token blacklisted");
     }
 
     private void saveRefreshToken(User user, String token) {

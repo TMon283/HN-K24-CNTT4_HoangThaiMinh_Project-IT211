@@ -1,6 +1,5 @@
 -- Badminton Court Booking & Management System
 -- MySQL 8 Schema
-
 CREATE DATABASE IF NOT EXISTS badminton_db
     CHARACTER SET utf8mb4
     COLLATE utf8mb4_unicode_ci;
@@ -109,16 +108,6 @@ CREATE TABLE IF NOT EXISTS password_reset_tokens (
     used        TINYINT(1) NOT NULL DEFAULT 0,
     created_at  DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6),
     CONSTRAINT fk_password_reset_user FOREIGN KEY (user_id) REFERENCES users (id)
-);
-
-CREATE TABLE IF NOT EXISTS audit_logs (
-    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
-    action      VARCHAR(100) NOT NULL,
-    status      VARCHAR(20) NOT NULL,
-    username    VARCHAR(100),
-    message     TEXT NOT NULL,
-    ip_address  VARCHAR(45),
-    created_at  DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6)
 );
 
 -- Seed roles

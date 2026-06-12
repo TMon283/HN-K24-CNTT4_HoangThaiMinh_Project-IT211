@@ -14,6 +14,7 @@ import com.badminton.repository.RoleRepository;
 import com.badminton.repository.UserRepository;
 import com.badminton.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +25,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -36,6 +38,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserResponse register(RegisterRequest request) {
+        log.info("Registering new user with email={}", request.getEmail());
         validateEmailUniqueness(request.getEmail());
 
         Role customerRole = roleRepository.findByName(RoleType.ROLE_CUSTOMER)
@@ -51,12 +54,15 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         User saved = userRepository.save(user);
+        log.info("User registered successfully: userId={}, email={}", saved.getId(), saved.getEmail());
+
         return userMapper.toResponse(saved);
     }
 
     @Override
     @Transactional
     public UserResponse createUser(UserCreateRequest request) {
+        log.info("Admin creating user with email={}", request.getEmail());
         validateEmailUniqueness(request.getEmail());
 
         Set<Role> roles = resolveRoles(request.getRoles());
@@ -71,12 +77,16 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         User saved = userRepository.save(user);
+        log.info("User created successfully: userId={}, email={}", saved.getId(), saved.getEmail());
+
         return userMapper.toResponse(saved);
     }
 
     @Override
     @Transactional
     public UserResponse updateUser(Long id, UserUpdateRequest request) {
+        log.info("Updating user id={}", id);
+
         User user = findUserById(id);
 
         if (request.getEmail() != null && !request.getEmail().equals(user.getEmail())) {
@@ -105,14 +115,18 @@ public class UserServiceImpl implements UserService {
         }
 
         User updated = userRepository.save(user);
+        log.info("User updated successfully: userId={}, email={}", updated.getId(), updated.getEmail());
+
         return userMapper.toResponse(updated);
     }
 
     @Override
     @Transactional
     public void deleteUser(Long id) {
+        log.info("Deleting user id={}", id);
         User user = findUserById(id);
         userRepository.delete(user);
+        log.info("User deleted successfully: userId={}", id);
     }
 
     @Override
@@ -124,6 +138,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public Page<UserResponse> searchUsers(String keyword, Pageable pageable) {
+        log.debug("Searching users with keyword={}", keyword);
         return userRepository.searchUsers(keyword, pageable)
                 .map(userMapper::toResponse);
     }
@@ -135,6 +150,7 @@ public class UserServiceImpl implements UserService {
 
     private void validateEmailUniqueness(String email) {
         if (userRepository.existsByEmail(email)) {
+            log.warn("Email already exists: {}", email);
             throw new ConflictException("Email already exists: " + email);
         }
     }
